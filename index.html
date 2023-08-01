@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<!-- Add Bootstrap CSS (you can download it or use a CDN) -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<div class="container mt-4">
+  <div class="form-group">
+    <label for="fatherName">Father's Name:</label>
+    <input type="text" class="form-control" id="fatherName" />
+  </div>
+
+  <div class="form-group">
+    <label for="fatherAddress">Father's Address:</label>
+    <input type="text" class="form-control" id="fatherAddress" />
+  </div>
+
+  <div class="form-group">
+    <label for="motherName">Mother's Name:</label>
+    <input type="text" class="form-control" id="motherName" />
+  </div>
+
+  <div class="form-group">
+    <label for="motherAddress">Mother's Address:</label>
+    <input type="text" class="form-control" id="motherAddress" />
+  </div>
+
+  <div class="form-group">
+    <label for="guardian">Guardian:</label>
+    <select class="form-control" id="guardian">
+      <option value="">Please choose an option</option>
+      <option value="father">Father</option>
+      <option value="mother">Mother</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group" id="guardianDetails">
+    <label for="guardianName">Guardian's Name:</label>
+    <input type="text" class="form-control" id="guardianName" />
+
+    <label for="guardianAddress">Guardian's Address:</label>
+    <input type="text" class="form-control" id="guardianAddress" />
+  </div>
+</div>
+
+<!-- Add the jQuery library (you can download it or use a CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    const guardianDetailsDiv = $('#guardianDetails');
+
+    // Initially hide the guardian details input fields
+    guardianDetailsDiv.hide();
+
+    // Function to handle select box change event
+    function handleGuardianChange() {
+      const guardianOption = $('#guardian').val();
+
+      if (guardianOption === 'father') {
+        showGuardianDetails($('#fatherName').val(), $('#fatherAddress').val());
+      } else if (guardianOption === 'mother') {
+        showGuardianDetails($('#motherName').val(), $('#motherAddress').val());
+      } else if (guardianOption === 'other') {
+        guardianDetailsDiv.show();
+        $('#guardianName').val('');
+        $('#guardianAddress').val('');
+      } else {
+        guardianDetailsDiv.hide();
+      }
+    }
+
+    function showGuardianDetails(name, address) {
+      const guardianNameInput = $('#guardianName');
+      const guardianAddressInput = $('#guardianAddress');
+
+      guardianNameInput.val(name);
+      guardianAddressInput.val(address);
+      guardianDetailsDiv.show();
+    }
+
+    // Attach an event listener to the select box
+    $('#guardian').on('change', handleGuardianChange);
+
+    // Attach event listeners to the father and mother inputs to handle manual changes
+    $('#fatherName, #fatherAddress').on('input', function () {
+      const guardianOption = $('#guardian').val();
+      if (guardianOption === 'father') {
+        showGuardianDetails($(this).val(), $('#fatherAddress').val());
+      }
+    });
+
+    $('#motherName, #motherAddress').on('input', function () {
+      const guardianOption = $('#guardian').val();
+      if (guardianOption === 'mother') {
+        showGuardianDetails($(this).val(), $('#motherAddress').val());
+      }
+    });
+  });
+</script>
+
+	
+</body>
+</html>
